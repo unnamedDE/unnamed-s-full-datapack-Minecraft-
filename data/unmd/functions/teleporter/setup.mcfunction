@@ -1,0 +1,4 @@
+
+
+#setup
+execute as @a at @s if block ~1 ~-1 ~ #unmd:concrete if block ~-1 ~-1 ~ #unmd:concrete if block ~ ~-1 ~1 #unmd:concrete if block ~ ~-1 ~-1 #unmd:concrete if block ~1 ~-1 ~1 minecraft:iron_block if block ~-1 ~-1 ~1 minecraft:iron_block if block ~1 ~-1 ~-1 minecraft:iron_block if block ~-1 ~-1 ~-1 minecraft:iron_block if block ~ ~-1 ~ minecraft:redstone_lamp[lit=false] positioned ~ ~-1 ~ unless entity @e[type=armor_stand,distance=..1,tag=teleporter_main] positioned ~ ~1 ~ align xyz run summon armor_stand ~0.5 ~-1 ~0.5 {NoGravity:1b,Marker:1b,Invisible:1b,NoBasePlate:1b,Tags:["teleporter_main"]}

@@ -1,0 +1,1 @@
+execute as @e[type=armor_stand,tag=teleporter_coral_reef_1] at @s run tp @a[distance=..1] 137 64 -4014

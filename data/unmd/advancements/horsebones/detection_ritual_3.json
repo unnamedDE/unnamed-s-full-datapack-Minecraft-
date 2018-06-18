@@ -1,0 +1,39 @@
+{
+    "__comment": "Made with TheDestruc7i0n's advancements generator: https://advancements.thedestruc7i0n.ca",
+    "criteria": {
+        "deep_overworld": {
+            "trigger": "minecraft:location",
+            "conditions": {
+                "dimension": "overworld",
+                "position": {
+                    "y": {
+                        "min": 0,
+                        "max": 5
+                    }
+                }
+            }
+        },
+        "deep_nether": {
+            "trigger": "minecraft:location",
+            "conditions": {
+                "dimension": "the_nether",
+                "position": {
+                    "y": {
+                        "min": 0,
+                        "max": 5
+                    }
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "deep_overworld",
+            "deep_nether"
+        ]
+    ],
+    "rewards": {
+        "function": "unmd:horsebones/rituals/ritual_3"
+    },
+    "parent": "unmd:horsebones/detection_main"
+}

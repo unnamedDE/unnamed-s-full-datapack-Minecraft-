@@ -1,0 +1,9 @@
+scoreboard objectives add mineIronOre minecraft.mined:minecraft.iron_ore
+scoreboard objectives add mineGoldOre minecraft.mined:minecraft.gold_ore
+scoreboard objectives add mineOakLog minecraft.mined:minecraft.oak_log
+scoreboard objectives add mineBirchLog minecraft.mined:minecraft.birch_log
+scoreboard objectives add mineJungleLog minecraft.mined:minecraft.jungle_log
+scoreboard objectives add mineAcaciaLog minecraft.mined:minecraft.acacia_log
+scoreboard objectives add mineDarkOakLog minecraft.mined:minecraft.dark_oak_log
+scoreboard objectives add mineSpruceLog minecraft.mined:minecraft.spruce_log
+scoreboard objectives add mineSand minecraft.mined:minecraft.sand

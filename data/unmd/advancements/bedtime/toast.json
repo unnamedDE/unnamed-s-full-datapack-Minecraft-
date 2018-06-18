@@ -1,0 +1,19 @@
+{
+    "display": {
+        "title": "Someone wants to sleep...",
+        "description": "Someone wants to sleep...",
+        "icon": {
+            "item": "minecraft:red_bed"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": false,
+        "hidden": true,
+        "background": "minecraft:textures/blocks/red_wool.png"
+    },
+    "criteria": {
+        "impossible": {
+            "trigger": "minecraft:impossible"
+        }
+    }
+}

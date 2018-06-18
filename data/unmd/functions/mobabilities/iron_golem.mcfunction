@@ -1,0 +1,1 @@
+execute at @e[type=villager_golem] run effect give @a[distance=..5] minecraft:resistance 1 0 true 

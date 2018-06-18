@@ -1,0 +1,9 @@
+setblock ~1 ~-1 ~1 minecraft:iron_block
+setblock ~-1 ~-1 ~1 minecraft:iron_block
+setblock ~1 ~-1 ~-1 minecraft:iron_block 
+setblock ~-1 ~-1 ~-1 minecraft:iron_block 
+setblock ~1 ~-1 ~ minecraft:white_concrete 
+setblock ~ ~-1 ~1 minecraft:white_concrete 
+setblock ~-1 ~-1 ~ minecraft:white_concrete 
+setblock ~ ~-1 ~-1 minecraft:white_concrete 
+setblock ~ ~-1 ~ minecraft:redstone_lamp 

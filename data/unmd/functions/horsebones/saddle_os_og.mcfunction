@@ -1,0 +1,1 @@
+execute as @e[type=item,nbt={OnGround: 1b, Item: {id: "minecraft:saddle", Count: 1b, tag: {ench: [{lvl: 1, id: 70}], HideFlags: 1, display: {Lore: ["Drop this to get Horsebone", "Take this saddle out to make Horsebone dissapear"], Name: "{\"translate\":\"Saddle of Summoning\",\"italic\":false}"}}}},limit=1] at @s run data merge entity @s {PickupDelay:0s}

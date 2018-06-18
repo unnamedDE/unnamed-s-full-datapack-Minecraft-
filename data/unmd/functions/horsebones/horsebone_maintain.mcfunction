@@ -1,0 +1,1 @@
+execute as @e[type=skeleton_horse,tag=horsebones_horsebone_main] at @s run data merge entity @s {Attributes:[{Name:generic.maxHealth,Base:30},{Name:generic.movementSpeed,Base:0.3375},{Name:generic.jumpStrength,Base:10}]}

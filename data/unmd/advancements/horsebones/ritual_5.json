@@ -1,0 +1,31 @@
+{
+    "__comment": "Made with TheDestruc7i0n's advancements generator: https://advancements.thedestruc7i0n.ca",
+    "display": {
+        "title": "Head to.. Head",
+        "description": "Put the Imbued Saddle on a horse you are willing to kill, and defeat the Horseman.",
+        "icon": {
+            "item": "minecraft:pumpkin"
+        },
+        "frame": "challenge",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "put": {
+            "trigger": "minecraft:impossible"
+        },
+        "kill": {
+            "trigger": "minecraft:impossible"
+        }
+    },
+    "requirements": [
+        [
+            "put"
+        ],
+        [
+            "kill"
+        ]
+    ],
+    "parent": "unmd:horsebones/ritual_4"
+}

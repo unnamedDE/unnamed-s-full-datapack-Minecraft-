@@ -1,0 +1,19 @@
+{
+    "display": {
+        "title": "Good Morning everyone",
+        "description": "Good Morning everyone",
+        "icon": {
+            "item": "minecraft:glowstone"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": false,
+        "hidden": true,
+        "background": "minecraft:textures/blocks/red_wool.png"
+    },
+    "criteria": {
+        "impossible": {
+            "trigger": "minecraft:impossible"
+        }
+    }
+}

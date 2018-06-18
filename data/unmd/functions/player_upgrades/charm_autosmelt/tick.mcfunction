@@ -1,0 +1,9 @@
+execute as @a at @s run function unmd:player_upgrades/charm_autosmelt/ironore
+execute as @a at @s run function unmd:player_upgrades/charm_autosmelt/goldore
+execute as @a at @s run function unmd:player_upgrades/charm_autosmelt/oaklog
+execute as @a at @s run function unmd:player_upgrades/charm_autosmelt/sprucelog
+execute as @a at @s run function unmd:player_upgrades/charm_autosmelt/birchlog
+execute as @a at @s run function unmd:player_upgrades/charm_autosmelt/junglelog
+execute as @a at @s run function unmd:player_upgrades/charm_autosmelt/acacialog
+execute as @a at @s run function unmd:player_upgrades/charm_autosmelt/darkoaklog
+execute as @a at @s run function unmd:player_upgrades/charm_autosmelt/sand

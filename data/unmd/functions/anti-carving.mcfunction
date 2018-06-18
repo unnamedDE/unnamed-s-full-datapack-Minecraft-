@@ -1,0 +1,6 @@
+execute as @a[nbt={Inventory:[{Slot:-106b,id:"minecraft:oak_sapling"}]}] at @s if block ~ ~-1 ~ minecraft:stripped_oak_log run fill ~ ~-1 ~ ~ ~-1 ~ minecraft:oak_log replace minecraft:stripped_oak_log 
+execute as @a[nbt={Inventory:[{Slot:-106b,id:"minecraft:dark_oak_sapling"}]}] at @s if block ~ ~-1 ~ minecraft:stripped_dark_oak_log run fill ~ ~-1 ~ ~ ~-1 ~ minecraft:dark_oak_log replace minecraft:stripped_dark_oak_log 
+execute as @a[nbt={Inventory:[{Slot:-106b,id:"minecraft:birch_sapling"}]}] at @s if block ~ ~-1 ~ minecraft:stripped_birch_log run fill ~ ~-1 ~ ~ ~-1 ~ minecraft:birch_log replace minecraft:stripped_birch_log 
+execute as @a[nbt={Inventory:[{Slot:-106b,id:"minecraft:acacia_sapling"}]}] at @s if block ~ ~-1 ~ minecraft:stripped_acacia_log run fill ~ ~-1 ~ ~ ~-1 ~ minecraft:acacia_log replace minecraft:stripped_acacia_log 
+execute as @a[nbt={Inventory:[{Slot:-106b,id:"minecraft:jungle_sapling"}]}] at @s if block ~ ~-1 ~ minecraft:stripped_jungle_log run fill ~ ~-1 ~ ~ ~-1 ~ minecraft:jungle_log replace minecraft:stripped_jungle_log 
+execute as @a[nbt={Inventory:[{Slot:-106b,id:"minecraft:spruce_sapling"}]}] at @s if block ~ ~-1 ~ minecraft:stripped_spruce_log run fill ~ ~-1 ~ ~ ~-1 ~ minecraft:spruce_log replace minecraft:stripped_spruce_log 

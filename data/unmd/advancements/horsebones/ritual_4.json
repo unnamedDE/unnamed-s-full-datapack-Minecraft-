@@ -1,0 +1,20 @@
+{
+    "__comment": "Made with TheDestruc7i0n's advancements generator: https://advancements.thedestruc7i0n.ca",
+    "display": {
+        "title": "Sage Infusion",
+        "description": "Carry the Fallen Saddle in your off-hand and either travel to the End or kill a witch or evoker.",
+        "icon": {
+            "item": "minecraft:splash_potion"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "impossible": {
+            "trigger": "minecraft:impossible"
+        }
+    },
+    "parent": "unmd:horsebones/ritual_3"
+}

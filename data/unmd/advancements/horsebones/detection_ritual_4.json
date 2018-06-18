@@ -1,0 +1,47 @@
+{
+    "__comment": "Made with TheDestruc7i0n's advancements generator: https://advancements.thedestruc7i0n.ca",
+    "criteria": {
+        "end": {
+            "trigger": "minecraft:changed_dimension",
+            "conditions": {
+                "to": "the_end"
+            }
+        },
+        "witch": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "entity": {
+                    "type": "minecraft:witch"
+                }
+            }
+        },
+        "illusion": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "entity": {
+                    "type": "minecraft:illusion_illager"
+                }
+            }
+        },
+        "evocation": {
+            "trigger": "minecraft:player_killed_entity",
+            "conditions": {
+                "entity": {
+                    "type": "minecraft:evocation_illager"
+                }
+            }
+        }
+    },
+    "requirements": [
+        [
+            "end",
+            "witch",
+            "illusion",
+            "evocation"
+        ]
+    ],
+    "rewards": {
+        "function": "unmd:horsebones/rituals/ritual_4"
+    },
+    "parent": "unmd:horsebones/detection_main"
+}

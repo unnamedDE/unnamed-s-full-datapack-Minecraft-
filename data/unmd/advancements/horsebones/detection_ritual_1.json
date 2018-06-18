@@ -1,0 +1,15 @@
+{
+    "__comment": "Made with TheDestruc7i0n's advancements generator: https://advancements.thedestruc7i0n.ca",
+    "criteria": {
+        "nether": {
+            "trigger": "minecraft:changed_dimension",
+            "conditions": {
+                "to": "the_nether"
+            }
+        }
+    },
+    "rewards": {
+        "function": "unmd:horsebones/rituals/ritual_1"
+    },
+    "parent": "unmd:horsebones/detection_main"
+}

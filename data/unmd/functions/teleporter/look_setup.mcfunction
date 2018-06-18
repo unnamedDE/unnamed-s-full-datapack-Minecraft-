@@ -1,0 +1,2 @@
+execute as @e[type=armor_stand,tag=teleporter_main,tag=!teleporter_destruction_init] at @s if block ~ ~ ~ minecraft:redstone_lamp[lit=false] run setblock ~ ~ ~ minecraft:redstone_lamp[lit=true]
+execute as @e[type=armor_stand,tag=teleporter_main,tag=!teleporter_destruction_init] at @s if block ~ ~4 ~ #unmd:stained_glass if block ~ ~5 ~ minecraft:redstone_lamp[lit=false] if block ~1 ~5 ~ minecraft:iron_block if block ~-1 ~5 ~ minecraft:iron_block if block ~ ~5 ~1 minecraft:iron_block if block ~ ~5 ~-1 minecraft:iron_block run setblock ~ ~5 ~ minecraft:redstone_lamp[lit=true]

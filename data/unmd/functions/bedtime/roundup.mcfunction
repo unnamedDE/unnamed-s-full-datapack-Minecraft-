@@ -1,0 +1,1 @@
+execute if score playersrequired unmd.bedtime >= 1 unmd.numbers if score playersrequired unmd.bedtime < 100 unmd.numbers run scoreboard players set playersrequired unmd.bedtime 100
