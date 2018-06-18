@@ -2,8 +2,6 @@
 execute at @e[type=armor_stand,tag=advancedcrafting_main] run function unmd:travel/recipes/jetpack
 execute at @e[type=armor_stand,tag=advancedcrafting_main] run function unmd:travel/recipes/jetboots
 execute at @e[type=armor_stand,tag=advancedcrafting_main] run function unmd:travel/recipes/infinite_enderpearl
-execute at @e[type=armor_stand,tag=advancedcrafting_main] run function unmd:travel/recipes/angel_wings
-execute at @e[type=armor_stand,tag=advancedcrafting_main] run function unmd:travel/recipes/angel_wings_
 execute at @e[type=armor_stand,tag=advancedcrafting_main] run function unmd:travel/recipes/angelwings
 
 scoreboard players set @a[scores={Fly1Craiy=1..}] Fly1Craiy 0
@@ -33,7 +31,9 @@ scoreboard players add @a[scores={Fly1Craiy=1..,Fly2Craiy=1..,Fly3Craiy=1..}] Fl
 scoreboard players set @a[scores={Fly2Craiy=1..}] Fly2Craiy 0
 scoreboard players set @a[scores={Fly5Craiy=1..}] Fly5Craiy 0
 #scoreboard players set @a[nbt={Inventory:[{Slot:102b,id:"minecraft:elytra",tag:{display:{Name:"{\"text\":\"Angel Wings\"}"},HideFlags:127,ench:[{id:127}]}}]}] Fly6Craiy 1
-scoreboard players set @a[nbt={Inventory:[{Slot:102b,id:"minecraft:elytra",Count:1b,tag:{HideFlags:127,display:{Name:"{\"text\":\"Angel Wings\",\"italic\":false}"},ench:[{id:0,lvl:4},{id:7,lvl:3},{id:127}],AttributeModifiers:[{AttributeName:"generic.maxHealth",Name:"generic.maxHealth",Amount:5,Operation:0,UUIDLeast:731691,UUIDMost:868689,Slot:"chest"},{AttributeName:"generic.armor",Name:"generic.armor",Amount:8,Operation:0,UUIDLeast:336862,UUIDMost:718019,Slot:"chest"},{AttributeName:"generic.armorToughness",Name:"generic.armorToughness",Amount:5,Operation:0,UUIDLeast:255294,UUIDMost:163587,Slot:"chest"}]}}]}] Fly6Craiy 1
+#scoreboard players set @a[nbt={Inventory:[{Slot:102b,id:"minecraft:elytra",Count:1b,tag:{HideFlags:127,display:{Name:"{\"text\":\"Angel Wings\",\"italic\":false}"},ench:[{id:0,lvl:4},{id:7,lvl:3},{id:127}],AttributeModifiers:[{AttributeName:"generic.maxHealth",Name:"generic.maxHealth",Amount:5,Operation:0,UUIDLeast:731691,UUIDMost:868689,Slot:"chest"},{AttributeName:"generic.armor",Name:"generic.armor",Amount:8,Operation:0,UUIDLeast:336862,UUIDMost:718019,Slot:"chest"},{AttributeName:"generic.armorToughness",Name:"generic.armorToughness",Amount:5,Operation:0,UUIDLeast:255294,UUIDMost:163587,Slot:"chest"}]}}]}] Fly6Craiy 1
+scoreboard players set @a[scores={Fly6Craiy=1..}] Fly6Craiy 0
+scoreboard players set @a[nbt={Inventory:[{Slot: 102b, id: "minecraft:elytra", Count: 1b, tag: {ench: [{lvl: 4, id: 0}, {lvl: 3, id: 7}, {id: 127}], Unbreakable:1b, HideFlags: 127, display: {Name: "{\"text\":\"Angel Wings\",\"italic\":false}"}, Damage: 0, AttributeModifiers: [{UUIDMost: 868689, UUIDLeast: 731691, Amount: 5, Slot: "chest", AttributeName: "generic.maxHealth", Operation: 0, Name: "generic.maxHealth"}, {UUIDMost: 718019, UUIDLeast: 336862, Amount: 8, Slot: "chest", AttributeName: "generic.armor", Operation: 0, Name: "generic.armor"}, {UUIDMost: 163587, UUIDLeast: 255294, Amount: 5, Slot: "chest", AttributeName: "generic.armorToughness", Operation: 0, Name: "generic.armorToughness"}]}}]}] Fly6Craiy 1
 execute as @a[scores={Fly8Craiy=0,Fly6Craiy=1},nbt={OnGround:0b}] at @s unless block ~ ~-2 ~ minecraft:air run effect give @s slow_falling 1 0 true
 #execute as @a[x_rotation=-60..-24,scores={Fly7Craiy=1..,Fly6Craiy=1..}] at @s positioned ~ ~ ~ run tp @s ~ ~1.8 ~
 #execute as @a[x_rotation=-60..-24,scores={Fly7Craiy=1..,Fly6Craiy=1..}] at @s positioned ~ ~ ~ run tp @s ^ ^ ^1.8
@@ -42,7 +42,6 @@ execute as @a[scores={Fly6Craiy=1}] at @s if block ~ ~-1.5 ~ air run scoreboard 
 execute as @a[scores={Fly7Craiy=1..,Fly6Craiy=1..,Fly3Craiy=1..}] at @s run particle firework ~ ~ ~ 0.1 0.1 0.1 0.008 4 normal
 scoreboard players set @a[scores={Fly3Craiy=1..}] Fly3Craiy 0
 scoreboard players set @a[scores={Fly7Craiy=1..}] Fly7Craiy 0
-scoreboard players set @a[scores={Fly6Craiy=1..}] Fly6Craiy 0
 scoreboard players remove @a[scores={Travel1Craiy=1..}] Travel1Craiy 1
 scoreboard players set @a[nbt={SelectedItem:{id:"minecraft:ender_pearl",tag:{display:{Name:"{\"text\":\"Infinite Enderpearl\"}"},ench:[{id:127}],HideFlags:127}}}] Travel1Craiy 2
 give @a[scores={Travel1Craiy=1..,Travel2Craiy=1..},gamemode=!creative] ender_pearl{display:{Name:"{\"text\":\"Infinite Enderpearl\"}"},ench:[{id:127}],HideFlags:127} 1

@@ -31,5 +31,3 @@ function unmd:player_upgrades/tick
 function unmd:advancedcrafting_lib/tick
 
 function unmd:travel/tick
-
-function unmd:test/1
