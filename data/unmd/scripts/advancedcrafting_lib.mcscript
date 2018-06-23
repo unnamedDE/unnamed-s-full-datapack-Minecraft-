@@ -1,0 +1,59 @@
+
+//Modal for creating recipes:
+modal recipe(item1,count1,item2,count2,item3,count3,item4,count4,item5,count5,item6,count6,item7,count7,item8,count8,item9,count9,item_1,count_1,item_2,count_2,item_3,count_3,item_4,count_4,item_5,count_5,item_6,count_6,item_7,count_7,item_8,count_8,item_9,count_9) {
+if('block ~ ~ ~ minecraft:dropper[facing=down]{CustomName: "{\"text\":\"Advanced Crafting Table\"}", Items: [{Slot: 0b, id: "$(item1)", Count: $(count1)b}, {Slot: 1b, id: "$(item2)", Count: $(count2)b}, {Slot: 2b, id: "$(item3)", Count: $(count3)b}, {Slot: 3b, id: "$(item4)", Count: $(count4)b}, {Slot: 4b, id: "$(item5)", Count: $(count5)b}, {Slot: 5b, id: "$(item6)", Count: $(count6)b}, {Slot: 6b, id: "$(item7)", Count: $(count7)b}, {Slot: 7b, id: "$(item8)", Count: $(count8)b}, {Slot: 8b, id: "$(item9)", Count: $(count9)b}], id: "minecraft:dropper"}') {
+/particle effect ~ ~ ~ 0.1 0.1 0.1 .0008 100
+/data merge block ~ ~ ~ {Items: [{Slot: 0b, id: "$(item_1)", Count: $(count_1)b}, {Slot: 1b, id: "$(item_2)", Count: $(count_2)b}, {Slot: 2b, id: "$(item_3)", Count: $(count_3)b}, {Slot: 3b, id: "$(item_4)", Count: $(count_4)b}, {Slot: 4b, id: "$(item_5)", Count: $(count_5)b}, {Slot: 5b, id: "$(item_6)", Count: $(count_6)b}, {Slot: 6b, id: "$(item_7)", Count: $(count_7)b}, {Slot: 7b, id: "$(item_8)", Count: $(count_8)b}, {Slot: 8b, id: "$(item_9)", Count: $(count_9)b}]}
+}
+}
+
+#file: ./advancedcrafting_lib/destroy
+#
+#Destroy function
+#
+/summon item ~ ~ ~ {Item:{id:"iron_block",Count:8b}}
+/summon item ~ ~ ~ {Item:{id:"crafting_table",Count:1b}}
+/kill @s
+
+#file: ./advancedcrafting_lib/detect
+#
+#Detect function
+#
+at(@a), positioned("~ ~-1 ~"), if('block ~ ~ ~ minecraft:dropper{Items: [{Slot: 0b, id: "minecraft:iron_block", Count: 1b}, {Slot: 1b, id: "minecraft:iron_block", Count: 1b}, {Slot: 2b, id: "minecraft:iron_block", Count: 1b}, {Slot: 3b, id: "minecraft:iron_block", Count: 1b}, {Slot: 4b, id: "minecraft:crafting_table", Count: 1b}, {Slot: 5b, id: "minecraft:iron_block", Count: 1b}, {Slot: 6b, id: "minecraft:iron_block", Count: 1b}, {Slot: 7b, id: "minecraft:iron_block", Count: 1b}, {Slot: 8b, id: "minecraft:iron_block", Count: 1b}]}'), align("xyz") {
+run: summon armor_stand ~0.5 ~ ~0.5 {NoGravity:1b,Invulnerable:1b,Small:1b,Marker:1b,Invisible:1b,NoBasePlate:1b,PersistenceRequired:1b,Tags:["advancedcrafting_main","advancedcrafting_main_new"]}
+}
+asat(@e[type=armor_stand,tag=advancedcrafting_main,tag=advancedcrafting_main_new]) {
+run: function unmd:advancedcrafting_lib/init
+}
+
+#file: ./advancedcrafting_lib/example_recipe
+#
+#An example example recipe
+#
+recipe("minecraft:iron_ingot",1,"minecraft:iron_ingot",1,"minecraft:iron_ingot",1,"minecraft:iron_ingot",1,"minecraft:iron_ingot",1,"minecraft:iron_ingot",1,"minecraft:iron_ingot",1,"minecraft:iron_ingot",1,"minecraft:iron_ingot",1,"air",1,"air",1,"air",1,"air",1,"minecraft:iron_block",1,"air",1,"air",1,"air",1,"air",1)
+
+#file: ./advancedcrafting_lib/init
+#
+#Initialisation
+#
+/tag @s remove advancedcrafting_main_new
+/data merge block ~ ~ ~ {Items: [{Slot: 0b, id: "minecraft:air", Count: 1b}, {Slot: 1b, id: "minecraft:air", Count: 1b}, {Slot: 2b, id: "minecraft:air", Count: 1b}, {Slot: 3b, id: "minecraft:air", Count: 1b}, {Slot: 4b, id: "minecraft:air", Count: 1b}, {Slot: 5b, id: "minecraft:air", Count: 1b}, {Slot: 6b, id: "minecraft:air", Count: 1b}, {Slot: 7b, id: "minecraft:air", Count: 1b}, {Slot: 8b, id: "minecraft:air", Count: 1b}]}
+/setblock ~ ~ ~ minecraft:dropper[facing=down]{CustomName:"{\"text\":\"Advanced Crafting Table\"}"} replace
+/particle minecraft:flame ~ ~.5 ~ 0 0 0 .1 200
+
+#file: ./advancedcrafting_lib/tick
+#
+#These commands run every tick
+#
+run: function unmd:advancedcrafting_lib/detect
+asat(@e[type=armor_stand,tag=advancedcrafting_main]) {
+if(!'block ~ ~ ~ minecraft:dropper') {
+run: function unmd:advancedcrafting_lib/destroy
+}
+run: function unmd:advancedcrafting_lib/example_recipe
+}
+
+#file: ./advancedcrafting_lib/load
+#
+#These commands run one reload once
+#
