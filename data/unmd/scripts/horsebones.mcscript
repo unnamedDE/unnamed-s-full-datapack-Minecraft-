@@ -1,0 +1,219 @@
+#file: ./horsebones/horseman/bossbar
+#
+if("entity @e[type=minecraft:stray,tag=horsebones_horseman_main]") {
+/bossbar set unmd:horsebones/horseman visible true
+/bossbar set unmd:horsebones/horseman players @a
+} else {
+/bossbar set unmd:horsebones/horseman visible false
+}
+/execute as @e[type=minecraft:stray,tag=horsebones_horseman_main] store result bossbar unmd:horsebones/horseman value run data get entity @e[type=minecraft:stray,tag=horsebones_horseman_main,limit=1] Health 1
+
+#file: ./horsebones/horseman/detect
+#
+/execute unless entity @e[type=stray,tag=horsebones_horseman_main] as @e[type=horse,nbt={SaddleItem: {id: "minecraft:saddle", Count: 1b, tag: {ench: [{Lvl: 1, Id: 70}], HideFlags: 1, display: {Lore: ["A powerful saddle bursting with arcane energy.", "Putting this on a horse could kill it... (IV of IV)"], Name: "{\"text\":\"Imbued Saddle\",\"italic\":false}"}}}}] at @s run function unmd:horsebones/horseman/summon_setup
+
+#file: ./horsebones/horseman/player_effects
+#
+at(@e[type=minecraft:stray,tag=horsebones_horseman_main]) {
+/effect give @a[distance=..10] minecraft:speed 1 4 true
+}
+
+#file: ./horsebones/horseman/summon_setup
+#
+/tellraw @a[distance=..35] ["",{"text":"The horse died, but the "},{"text":"Horseman ","color":"aqua","bold":false,"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"He will kill you!!!","color":"red"}]}}},{"text":"awakened","color":"none","bold":false}]
+/function unmd:horsebones/horseman/summon
+/function unmd:horsebones/horseman/summon_visuals
+/advancement grant @p only unmd:horsebones/ritual_5 put
+/tp @a[distance=..2] ~ ~.001 ~
+/tp @s ~ -500 ~
+
+#file: ./horsebones/horseman/summon_visuals
+#
+/particle minecraft:explosion ~ ~1 ~ 0.3 0.3 0.3 0 6
+/particle minecraft:witch ~ ~1 ~ 0.3 0.3 0.3 0 15
+/particle minecraft:explosion_emitter ~ ~1 ~ 0.3 0.3 0.3 0 1
+
+#file: ./horsebones/horseman/summon
+#
+/summon stray ~ ~ ~ {DeathLootTable:"unmd:horsebones/entities/horseman_drop",PersistenceRequired:1b,Health:200f,Tags:["horsebones_horseman_main","horsebones_horseman_summon"],CustomName:"{\"text\":\"Horseman\"}",HandItems:[{id:"minecraft:iron_axe",Count:1b,tag:{HideFlags:1,ench:[{id:71,lvl:1}],AttributeModifiers:[{AttributeName:"generic.attackDamage",Name:"generic.attackDamage",Amount:10,Operation:0,UUIDLeast:855438,UUIDMost:598429}]}},{id:"minecraft:bow",Count:1b,tag:{HideFlags:1,ench:[{id:71,lvl:1}]}}],HandDropChances:[-327.67F,-327.67F],ArmorItems:[{},{},{},{id:"minecraft:carved_pumpkin",Count:1b,tag:{ench:[{id:71,lvl:1}],AttributeModifiers:[{AttributeName:"generic.movementSpeed",Name:"generic.movementSpeed",Amount:0.1,Operation:0,UUIDLeast:843656,UUIDMost:270523,Slot:"head"}]}}],ArmorDropChances:[0.85F,0.85F,0.85F,-327.67F],Attributes:[{Name:generic.maxHealth,Base:200},{Name:generic.followRange,Base:50},{Name:generic.knockbackResistance,Base:0.99},{Name:generic.attackDamage,Base:7}]}
+
+positioned("~ ~1 ~") {
+/particle minecraft:sweep_attack ^ ^ ^.3 0.3 0.3 0.3 0 1
+/particle minecraft:witch ~ ~ ~ 0.3 0.3 0.3 0 10
+}
+/playsound minecraft:entity.player.small_fall hostile @a ~ ~ ~
+
+#file: ./horsebones/horseman/swap
+#
+as(@e[type=stray,tag=horsebones_horseman_main]) {
+/scoreboard players add @s hbs_man_swap 1
+}
+asat(@e[type=stray,tag=horsebones_horseman_main,scores={hbs_man_swap=200}]) {
+/replaceitem entity @s weapon.mainhand minecraft:bow{HideFlags:1,ench:[{id:71,lvl:1}],AttributeModifiers:[{AttributeName:"generic.movementSpeed",Name:"generic.movementSpeed",Amount:1,Operation:1,UUIDLeast:843656,UUIDMost:270523,Slot:"head"}]}
+/replaceitem entity @s weapon.offhand minecraft:iron_axe{HideFlags:1,ench:[{id:71,lvl:1}],AttributeModifiers:[{AttributeName:"generic.attackDamage",Name:"generic.attackDamage",Amount:10,Operation:0,UUIDLeast:855438,UUIDMost:598429}]}
+/function unmd:horsebones/horseman/swap_visuals
+/run replaceitem entity @s weapon.offhand minecraft:bow{HideFlags:1,ench:[{id:71,lvl:1}]}
+/run replaceitem entity @s weapon.mainhand minecraft:iron_axe{HideFlags:1,ench:[{id:71,lvl:1}],AttributeModifiers:[{AttributeName:"generic.attackDamage",Name:"generic.attackDamage",Amount:10,Operation:0,UUIDLeast:855438,UUIDMost:598429}]}
+/function unmd:horsebones/horseman/swap_visuals
+/scoreboard players set @s hbs_man_swap 0
+}
+
+#file: ./horsebones/rituals/ritual_1
+#
+/advancement revoke @s only unmd:horsebones/detection_ritual_1
+/execute if entity @s[nbt={SelectedItem:{id:"minecraft:bone_block"},Inventory:[{Slot:-106b,id:"minecraft:saddle"},{Slot:103b,id:"minecraft:carved_pumpkin"}]}] run tag @s add horsebones_ritual_1
+asat(@s[tag=horsebones_ritual_1]) {
+/function unmd:horsebones/particle_upgrade_saddle
+/replaceitem entity @s weapon.mainhand minecraft:air
+/replaceitem entity @s armor.head minecraft:air
+/replaceitem entity @s weapon.offhand minecraft:saddle{display:{Name:"{\"text\":\"Distorted Saddle\",\"italic\":false}",Lore:["A saddle twisted by the power of the Nether.","It yearns for greater heights. (I of IV)"]},ench:[{Id:70,Lvl:1}],HideFlags:1}
+}
+/tellraw @s[tag=horsebones_ritual_1] ["",{"text":"The pumpkin and bone block vanish, and the saddle becomes a "},{"text":"Distorted Saddle","color":"aqua"}]
+/advancement grant @s[tag=horsebones_ritual_1] only unmd:horsebones/ritual_1
+/execute as @s[tag=horsebones_ritual_1] run tag @s remove horsebones_ritual_1
+
+#file: ./horsebones/rituals/ritual_2
+#
+/advancement revoke @s only unmd:horsebones/detection_ritual_2
+/execute if entity @s[nbt={Inventory:[{Slot:-106b,id:"minecraft:saddle",tag:{ench: [{Lvl: 1, Id: 70}], HideFlags: 1, display: {Lore: ["A saddle twisted by the power of the Nether.", "It yearns for greater heights. (I of IV)"], Name: "{\"text\":\"Distorted Saddle\",\"italic\":false}"}}}]}] run tag @s add horsebones_ritual_2
+/execute at @s[tag=horsebones_ritual_2] run function unmd:horsebones/particle_upgrade_saddle
+/replaceitem entity @s[tag=horsebones_ritual_2] weapon.offhand minecraft:saddle{display:{Name:"{\"text\":\"Ascended Saddle\",\"italic\":false}",Lore:["A shining saddle elevated to the top of the world.","It is heavy, like the depths pull at it. (II of IV)"]},ench:[{Id:70,Lvl:1}],HideFlags:1}
+/tellraw @s[tag=horsebones_ritual_2] ["",{"text":"With a dizzying shimmer the "},{"text":"Distorted Saddle","color":"aqua"},{"text":" becomes an "},{"text":"Ascended Saddle","color":"aqua"}]
+/advancement grant @s[tag=horsebones_ritual_2] only unmd:horsebones/ritual_2
+/tag @s remove horsebones_ritual_2
+
+#file: ./horsebones/rituals/ritual_3
+#
+/advancement revoke @s only unmd:horsebones/detection_ritual_3
+/execute if entity @s[nbt={Inventory:[{Slot:-106b,id:"minecraft:saddle",tag:{display:{Name:"{\"text\":\"Ascended Saddle\",\"italic\":false}",Lore:["A shining saddle elevated to the top of the world.","It is heavy, like the depths pull at it. (II of IV)"]},ench:[{Id:70,Lvl:1}]}}]}] run tag @s add horsebones_ritual_3
+/execute at @s[tag=horsebones_ritual_3] run function unmd:horsebones/particle_upgrade_saddle
+/replaceitem entity @s[tag=horsebones_ritual_3] weapon.offhand minecraft:saddle{display:{Name:"{\"text\":\"Fallen Saddle\",\"italic\":false}",Lore:["A mystical saddle corrupted by the influence of the void.","It thirsts for arcane power. (III of IV)"]},ench:[{Id:70,Lvl:1}],HideFlags:1}
+/tellraw @s[tag=horsebones_ritual_3] ["",{"text":"The air chills as the "},{"text":"Ascended Saddle","color":"aqua"},{"text":" becomes a "},{"text":"Fallen Saddle","color":"aqua"}]
+/advancement grant @s[tag=horsebones_ritual_3] only unmd:horsebones/ritual_3
+/tag @s remove horsebones_ritual_3
+
+#file: ./horsebones/rituals/ritual_4
+#
+/advancement revoke @s only unmd:horsebones/detection_ritual_4
+/execute if entity @s[nbt={Inventory:[{Slot:-106b,id:"minecraft:saddle",tag:{ench: [{Lvl: 1, Id: 70}], HideFlags: 1, display: {Lore: ["A mystical saddle corrupted by the influence of the void.", "It thirsts for arcane power. (III of IV)"], Name: "{\"text\":\"Fallen Saddle\",\"italic\":false}"}}}]}] run tag @s add horsebones_ritual_4
+/execute at @s[tag=horsebones_ritual_4] run function unmd:horsebones/particle_upgrade_saddle
+/replaceitem entity @s[tag=horsebones_ritual_4] weapon.offhand minecraft:saddle{display:{Name:"{\"text\":\"Imbued Saddle\",\"italic\":false}",Lore:["A powerful saddle bursting with arcane energy.","Putting this on a horse could kill it... (IV of IV)"]},ench:[{Id:70,Lvl:1}],HideFlags:1}
+/tellraw @s[tag=horsebones_ritual_4] ["",{"text":"With a surge of arcane energy the "},{"text":"Fallen Saddle","color":"aqua"},{"text":" becomes an "},{"text":"Imbuid Saddle","color":"aqua"}]
+/advancement grant @s[tag=horsebones_ritual_4] only unmd:horsebones/ritual_4
+/tag @s remove horsebones_ritual_4
+
+#file: ./horsebones/rituals/ritual_5
+#
+/advancement revoke @s only unmd:horsebones/detection_ritual_5
+/advancement grant @s only unmd:horsebones/ritual_5 kill
+/tag @s add horsebones_player_hashorsebone
+
+#file: ./horsebones/execute_as_horsebone
+#
+asat(@e[type=skeleton_horse,tag=horsebones_horsebone_main]) {
+/function unmd:horsebones/horsebone_particle
+}
+
+#file: ./horsebones/give_saddle_of_summoning
+#
+/give @s minecraft:saddle{display:{Name:"{\"translate\":\"Saddle of Summoning\",\"italic\":false}",Lore:["Drop this to get Horsebone","Take this saddle out to make Horsebone dissapear"]},HideFlags:1,ench:[{id:70,lvl:1}]}
+
+#file: ./horsebones/horsebone_ai
+#
+/execute as @a[nbt={RootVehicle: {Entity: {Tame: 1b, id: "minecraft:skeleton_horse", Tags: ["horsebones_horsebone_main"], SaddleItem: {id: "minecraft:saddle", Count: 1b, tag: {ench: [{lvl: 1, id: 70}], HideFlags: 1, display: {Lore: ["Drop this to get Horsebone", "Take this saddle out to make Horsebone dissapear"], Name: "{\"translate\":\"Saddle of Summoning\",\"italic\":false}"}}}}}}] at @s as @e[type=skeleton_horse,tag=horsebones_horsebone_main,distance=..2] run tag @s add horsebones_horsebone_hasai
+/execute as @e[type=skeleton_horse,tag=horsebones_horsebone_main] run data merge entity @s {NoAI:1b,Silent:1b}
+/execute as @e[type=skeleton_horse,tag=horsebones_horsebone_hasai,tag=horsebones_horsebone_main,nbt={NoAI:1b}] run data merge entity @s {NoAI:0b,Silent:0b}
+/execute as @e[type=skeleton_horse,tag=horsebones_horsebone_main,tag=horsebones_horsebone_hasai,nbt={OnGround:1b}] run tag @s remove horsebones_horsebone_hasai
+
+#file: ./horsebones/horsebone_invisible
+#
+/execute as @a[nbt={ActiveEffects:[{Id:14b}],RootVehicle: {Entity: {Tame: 1b, id: "minecraft:skeleton_horse", Tags: ["horsebones_horsebone_main"], SaddleItem: {id: "minecraft:saddle", Count: 1b, tag: {ench: [{lvl: 1, id: 70}], HideFlags: 1, display: {Lore: ["Drop this to get Horsebone", "Take this saddle out to make Horsebone dissapear"], Name: "{\"translate\":\"Saddle of Summoning\",\"italic\":false}"}}}}}}] at @s run tag @e[type=skeleton_horse,tag=horsebones_horsebone_main,limit=1,sort=nearest] add horsebones_horsebone_invisible
+/execute as @a[nbt={RootVehicle: {Entity: {Tame: 1b, id: "minecraft:skeleton_horse", Tags: ["horsebones_horsebone_main","horsebones_horsebone_invisible"], SaddleItem: {id: "minecraft:saddle", Count: 1b, tag: {ench: [{lvl: 1, id: 70}], HideFlags: 1, display: {Lore: ["Drop this to get Horsebone", "Take this saddle out to make Horsebone dissapear"], Name: "{\"translate\":\"Saddle of Summoning\",\"italic\":false}"}}}}}}] at @s unless entity @s[nbt={ActiveEffects:[{Id:14b}]}] run tag @e[type=skeleton_horse,tag=horsebones_horsebone_main,limit=1,sort=nearest] remove horsebones_horsebone_invisible
+/execute as @e[type=skeleton_horse,tag=horsebones_horsebone_main,tag=horsebones_horsebone_invisible] run effect give @s minecraft:invisibility 1 0 true
+/execute as @e[type=skeleton_horse,tag=horsebones_horsebone_main,tag=!horsebones_horsebone_invisible,nbt={ActiveEffects:[{Id:14b}]}] run effect clear @s minecraft:invisibility
+
+#file: ./horsebones/horsebone_maintain
+#
+/execute as @e[type=skeleton_horse,tag=horsebones_horsebone_main] at @s run data merge entity @s {Attributes:[{Name:generic.maxHealth,Base:30},{Name:generic.movementSpeed,Base:0.3375},{Name:generic.jumpStrength,Base:10}]}
+
+#file: ./horsebones/horsebone_particle
+#
+/execute as @e[type=skeleton_horse,tag=horsebones_horsebone_main] at @s positioned ~ ~1.55 ~ rotated ~ 0 run particle minecraft:flame ^ ^ ^1.35 0.1 0.1 0.1 0 1 force
+
+#file: ./horsebones/kill_horsebone_detection
+#
+/execute as @e[type=skeleton_horse,tag=horsebones_horsebone_main] at @s unless entity @s[nbt={SaddleItem: {id: "minecraft:saddle", Count: 1b, tag: {ench: [{lvl: 1, id: 70}], HideFlags: 1, display: {Lore: ["Drop this to get Horsebone", "Take this saddle out to make Horsebone dissapear"], Name: "{\"translate\":\"Saddle of Summoning\",\"italic\":false}"}}}}] run function unmd:horsebones/kill_horsebone
+
+#file: ./horsebones/kill_horsebone
+#
+/execute as @p if entity @s[tag=horsebones_player_hashorsebone] run advancement grant @s only unmd:horsebones/get_back_in_there
+/execute as @p[nbt={RootVehicle: {Entity: {Tame: 1b, id: "minecraft:skeleton_horse", Tags: ["horsebones_horsebone_main"]}}}] unless entity @s[nbt={RootVehicle: {Entity: {SaddleItem: {id: "minecraft:saddle", Count: 1b, tag: {ench: [{lvl: 1, id: 70}], HideFlags: 1, display: {Lore: ["Drop this to get Horsebone", "Take this saddle out to make Horsebone dissapear"], Name: "{\"translate\":\"Saddle of Summoning\",\"italic\":false}"}}}}}}] at @s run tp @s ~ ~.001 ~
+/execute as @e[type=skeleton_horse,tag=horsebones_horsebone_main] at @s unless entity @s[nbt={SaddleItem: {id: "minecraft:saddle", Count: 1b, tag: {ench: [{lvl: 1, id: 70}], HideFlags: 1, display: {Lore: ["Drop this to get Horsebone", "Take this saddle out to make Horsebone dissapear"], Name: "{\"translate\":\"Saddle of Summoning\",\"italic\":false}"}}}}] at @s run function unmd:horsebones/particle_kill_horsebone
+/execute as @e[type=skeleton_horse,tag=horsebones_horsebone_main] at @s unless entity @s[nbt={SaddleItem: {id: "minecraft:saddle", Count: 1b, tag: {ench: [{lvl: 1, id: 70}], HideFlags: 1, display: {Lore: ["Drop this to get Horsebone", "Take this saddle out to make Horsebone dissapear"], Name: "{\"translate\":\"Saddle of Summoning\",\"italic\":false}"}}}}] run tp @s ~ -500 ~
+
+#file: ./horsebones/load
+#
+/scoreboard objectives add hbs_saddle_og dummy
+/scoreboard objectives add hbs_man_swap dummy Horseman swap weapons
+/bossbar create unmd:horsebones/horseman ["",{"text":"Horseman"}]
+/bossbar set unmd:horsebones/horseman visible false
+/bossbar set unmd:horsebones/horseman players @a
+/bossbar set unmd:horsebones/horseman max 200
+/bossbar set unmd:horsebones/horseman color pink
+/bossbar set unmd:horsebones/horseman name ["",{"text":"Horseman","color":"white"}]
+
+#file: ./horsebones/particle_kill_horsebone
+#
+/particle minecraft:explosion ~ ~1 ~ 0.3 0.3 0.3 0 6
+/particle minecraft:witch ~ ~1 ~ 0.3 0.3 0.3 0 15
+/particle minecraft:explosion_emitter ~ ~1 ~ 0.3 0.3 0.3 0 1
+/playsound minecraft:entity.skeleton_horse.death hostile @a[distance=..20] ~ ~ ~ 10
+
+#file: ./horsebones/particle_summon_horsebone_detection
+#
+/execute as @e[type=skeleton_horse,tag=horsebones_horsebone_getspawnparticle] at @s run function unmd:horsebones/particle_summon_horsebone
+
+#file: ./horsebones/particle_summon_horsebone
+#
+/particle minecraft:explosion ~ ~1 ~ 0.3 0.3 0.3 0 6
+/particle minecraft:witch ~ ~1 ~ 0.3 0.3 0.3 0 15
+/particle minecraft:explosion_emitter ~ ~1 ~ 0.3 0.3 0.3 0 1
+/tag @s remove horsebones_horsebone_getspawnparticle
+/playsound minecraft:entity.skeleton_horse.ambient hostile @a[distance=..20] ~ ~ ~ 10
+
+#file: ./horsebones/particle_upgrade_saddle
+#
+/particle minecraft:witch ~ ~1 ~ 0.3 0.3 0.3 0 25
+/playsound minecraft:entity.elder_guardian.curse player @s ~ ~ ~ 1 0.6
+
+#file: ./horsebones/saddle_os_og
+#
+/execute as @e[type=item,nbt={OnGround: 1b, Item: {id: "minecraft:saddle", Count: 1b, tag: {ench: [{lvl: 1, id: 70}], HideFlags: 1, display: {Lore: ["Drop this to get Horsebone", "Take this saddle out to make Horsebone dissapear"], Name: "{\"translate\":\"Saddle of Summoning\",\"italic\":false}"}}}},limit=1] at @s run data merge entity @s {PickupDelay:0s}
+
+#file: ./horsebones/summon_horsebone_detection
+#
+/scoreboard players add @e[type=item,nbt={OnGround: 1b, Item: {id: "minecraft:saddle", Count: 1b, tag: {ench: [{lvl: 1, id: 70}], HideFlags: 1, display: {Lore: ["Drop this to get Horsebone", "Take this saddle out to make Horsebone dissapear"], Name: "{\"translate\":\"Saddle of Summoning\",\"italic\":false}"}}}}] hbs_saddle_og 1
+/execute as @e[type=item,scores={hbs_saddle_og=50},nbt={OnGround: 1b, Item: {id: "minecraft:saddle", Count: 1b, tag: {ench: [{lvl: 1, id: 70}], HideFlags: 1, display: {Lore: ["Drop this to get Horsebone", "Take this saddle out to make Horsebone dissapear"], Name: "{\"translate\":\"Saddle of Summoning\",\"italic\":false}"}}}}] at @s run function unmd:horsebones/summon_horsebone
+
+#file: ./horsebones/summon_horsebone_manual
+#
+/summon skeleton_horse ~ ~ ~ {Silent:1b,SaddleItem: {id: "minecraft:saddle", Count: 1b, tag: {ench: [{lvl: 1, id: 70}], HideFlags: 1, display: {Lore: ["Drop this to get Horsebone", "Take this saddle out to make Horsebone dissapear"], Name: "{\"translate\":\"Saddle of Summoning\",\"italic\":false}"}}},DeathLootTable:"unmd:horsebones/entities/horsebone_drop",PersistenceRequired:1b,NoAI:1b,CanPickUpLoot:0b,Health:30f,Tame:1b,Tags:["horsebones_horsebone_main","horsebones_horsebone_getspawnparticle"],Attributes:[{Name:generic.maxHealth,Base:30},{Name:generic.movementSpeed,Base:0.3375},{Name:horse.jumpStrength,Base:1.1}]}
+
+#file: ./horsebones/summon_horsebone
+#
+/kill @s
+/summon skeleton_horse ~ ~ ~ {Silent:1b,SaddleItem: {id: "minecraft:saddle", Count: 1b, tag: {ench: [{lvl: 1, id: 70}], HideFlags: 1, display: {Lore: ["Drop this to get Horsebone", "Take this saddle out to make Horsebone dissapear"], Name: "{\"translate\":\"Saddle of Summoning\",\"italic\":false}"}}},DeathLootTable:"unmd:horsebones/entities/horsebone_drop",PersistenceRequired:1b,NoAI:1b,CanPickUpLoot:0b,Health:30f,Tame:1b,Tags:["horsebones_horsebone_main","horsebones_horsebone_getspawnparticle"],Attributes:[{Name:generic.maxHealth,Base:30},{Name:generic.movementSpeed,Base:0.3375},{Name:horse.jumpStrength,Base:1.1}]}
+
+#file: ./horsebones/tick
+#
+/function unmd:horsebones/summon_horsebone_detection
+/function unmd:horsebones/kill_horsebone_detection
+/function unmd:horsebones/particle_summon_horsebone_detection
+/function unmd:horsebones/saddle_os_og
+/function unmd:horsebones/execute_as_horsebone
+/function unmd:horsebones/horsebone_invisible
+/function unmd:horsebones/horsebone_ai
+/function unmd:horsebones/horseman/swap
+/function unmd:horsebones/horseman/detect
+/function unmd:horsebones/horseman/bossbar
+/function unmd:horsebones/horseman/player_effects
