@@ -1,0 +1,72 @@
+#file: ./bedtime/action
+#
+if("score playerssleeping% unmd.bedtime >= playersrequired% unmd.bedtime") {
+as(@a[nbt={Sleeping:1b}]) {
+/effect give @s minecraft:regeneration 1 10 true
+}
+if(!"score playersonline unmd.bedtime = 1 unmd.numbers") {
+/advancement grant @a only unmd:bedtime/morning
+/time set 0
+/weather clear 99999
+}
+}
+/execute if score playerssleeping unmd.bedtime = 0 unmd.numbers unless score playersonline unmd.bedtime = 1 unmd.numbers run advancement revoke @a only unmd:bedtime/morning
+
+#file: ./bedtime/calc
+#
+/scoreboard players set playersonline unmd.bedtime 0
+/execute as @a run scoreboard players add playersonline unmd.bedtime 1
+/scoreboard players set playerssleeping unmd.bedtime 0
+#
+/execute as @a[scores={unmd.bedtime.=100..}] run scoreboard players add playerssleeping unmd.bedtime 1
+#
+/scoreboard players operation playersrequired% unmd.bedtime = % unmd.bedtime
+/scoreboard players operation playersrequired% unmd.bedtime *= playersonline unmd.bedtime
+/scoreboard players operation bossbarmax unmd.bedtime = playersrequired unmd.bedtime
+/scoreboard players operation bossbarmax unmd.bedtime *= 100 unmd.numbers
+/scoreboard players operation playersrequired unmd.bedtime = playersrequired% unmd.bedtime
+/scoreboard players operation playersrequired unmd.bedtime /= 100 unmd.numbers
+/execute unless score % unmd.bedtime = 100 unmd.numbers run scoreboard players add playersrequired unmd.bedtime 1
+/scoreboard players operation playersmorerequired unmd.bedtime = playersrequired unmd.bedtime
+/scoreboard players operation playersmorerequired unmd.bedtime -= playerssleeping unmd.bedtime
+#
+/scoreboard players operation playerssleeping% unmd.bedtime = playerssleeping unmd.bedtime
+/scoreboard players operation playerssleeping% unmd.bedtime *= 100 unmd.numbers
+
+#file: ./bedtime/detectsleeping
+#
+/scoreboard players add @a[nbt={Dimension:0,Sleeping:1b}] unmd.bedtime. 1
+/scoreboard players reset @a[nbt={Sleeping:0b}] unmd.bedtime.
+/execute as @a[nbt={Sleeping:1b},scores={unmd.bedtime.=..99}] run scoreboard players add bossbar unmd.bedtime 1
+/execute unless entity @a[nbt={Sleeping:1b}] run scoreboard players set bossbar unmd.bedtime 0
+/execute as @a[nbt={Sleeping:1b}] run bossbar set unmd:bedtime visible true
+/execute as @a[nbt={Sleeping:1b}] run bossbar set unmd:bedtime players @a
+/execute unless entity @a[nbt={Sleeping:1b}] run bossbar set unmd:bedtime visible false
+/execute store result bossbar unmd:bedtime value run scoreboard players get bossbar unmd.bedtime
+/execute store result bossbar unmd:bedtime max run scoreboard players get bossbarmax unmd.bedtime
+/execute if score playersonline unmd.bedtime > 1 unmd.numbers if entity @a[scores={unmd.bedtime.=1..}] run advancement grant @a only unmd:bedtime/toast
+/execute unless entity @a[scores={unmd.bedtime.=1..}] run advancement revoke @a only unmd:bedtime/toast
+/execute unless entity @a[scores={unmd.bedtime.=1..99}] run scoreboard players operation bossbar unmd.bedtime = playerssleeping% unmd.bedtime
+
+/execute as @a[scores={unmd.bedtime.=101}] unless score playerssleeping% unmd.bedtime > playersrequired% unmd.bedtime run tellraw @a ["",{"score":{"name":"playerssleeping","objective":"unmd.bedtime"},"color":"green"},{"text":" Players want to sleep. ","color":"gold"},{"score":{"name":"playersmorerequired","objective":"unmd.bedtime"},"color":"green"},{"text":" Players more have to go to bed to skip the night...","color":"gold"}]
+
+#file: ./bedtime/load
+#
+/scoreboard objectives add unmd.bedtime dummy Bedtime Settings
+/scoreboard objectives add unmd.bedtime. dummy Bedtime
+/scoreboard players set playersonline unmd.bedtime 0
+/scoreboard players set playerssleeping% unmd.bedtime 0
+/scoreboard players set playerssleeping unmd.bedtime 0
+/scoreboard players set playersrequired% unmd.bedtime 0
+/bossbar create unmd:bedtime ["",{"text":"Sleeping Progress","color":"white"}]
+/bossbar set unmd:bedtime color yellow
+/bossbar set unmd:bedtime style progress
+/scoreboard players set bossbar unmd.bedtime 0
+/scoreboard players set bossbarmax unmd.bedtime 0
+/scoreboard players set playersmorerequired unmd.bedtime 0
+
+#file: ./bedtime/tick
+#
+/function unmd:bedtime/calc
+/function unmd:bedtime/detectsleeping
+/function unmd:bedtime/action

@@ -6,7 +6,6 @@ if('block ~ ~ ~ minecraft:dropper[facing=down]{CustomName: "{\"text\":\"Advanced
 /data merge block ~ ~ ~ {Items: [{Slot: 0b, id: "$(item_1)", Count: $(count_1)b}, {Slot: 1b, id: "$(item_2)", Count: $(count_2)b}, {Slot: 2b, id: "$(item_3)", Count: $(count_3)b}, {Slot: 3b, id: "$(item_4)", Count: $(count_4)b}, {Slot: 4b, id: "$(item_5)", Count: $(count_5)b}, {Slot: 5b, id: "$(item_6)", Count: $(count_6)b}, {Slot: 6b, id: "$(item_7)", Count: $(count_7)b}, {Slot: 7b, id: "$(item_8)", Count: $(count_8)b}, {Slot: 8b, id: "$(item_9)", Count: $(count_9)b}]}
 }
 }
-
 #file: ./advancedcrafting_lib/destroy
 #
 #Destroy function
