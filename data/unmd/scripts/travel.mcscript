@@ -1,0 +1,91 @@
+#file: ./travel/tick
+#
+#These commands run every tick
+#
+#RECIPES
+asat(@e[type=armor_stand,tag=advancedcrafting_main]) {
+/function unmd:travel/recipes
+}
+#MECHANICS
+/function unmd:travel/mechanics
+
+#file: ./travel/load
+#
+#These commands run on reload once
+#
+/scoreboard objectives add UNMDtravel1 minecraft.custom:minecraft.sneak_time
+/scoreboard objectives add UNMDtravel2 dummy
+/scoreboard objectives add UNMDtravel3 dummy
+/scoreboard objectives add UNMDtravel4 minecraft.custom:minecraft.aviate_one_cm
+/scoreboard objectives add UNMDtravel5 minecraft.custom:minecraft.jump
+/scoreboard objectives add UNMDtravel6 dummy
+/scoreboard objectives add UNMDtravel7 minecraft.used:minecraft.ender_pearl
+
+#file: ./travel/mechanics
+#
+#The mechanics of the added items
+#
+/tag @a[tag=unmd_travel_jetpack] remove unmd_travel_jetpack
+/tag @a[tag=unmd_travel_jetboots] remove unmd_travel_jetboots
+/tag @a[nbt={Inventory:[{Slot:100b,id:"minecraft:iron_boots",tag:{display:{Name:"{\"text\":\"Jetboots\",\"italic\":\"false\"}"},HideFlags:127}}]}] add unmd_travel_jetboots
+/tag @a[nbt={Inventory:[{Slot:102b,id:"minecraft:iron_chestplate",tag:{display:{Name:"{\"text\":\"Jetpack\",\"italic\":\"false\"}"},HideFlags:127}}]}] add unmd_travel_jetpack
+/execute as @a[tag=unmd_travel_jetboots,scores={UNMDtravel5=0,UNMDtravel2=1..},nbt={OnGround:0b}] at @s unless block ~ ~-2 ~ minecraft:air run effect give @s slow_falling 1 0 true
+/execute as @a[tag=unmd_travel_jetpack,scores={UNMDtravel5=0,UNMDtravel2=1..},nbt={OnGround:0b}] at @s unless block ~ ~-2 ~ minecraft:air run effect give @s slow_falling 1 0 true
+/execute as @a[tag=unmd_travel_jetboots,scores={UNMDtravel5=0},nbt={OnGround:0b}] at @s unless block ~ ~-2 ~ minecraft:air run particle flame ~ ~1 ~ 0.1 0.1 0.1 0.008 2 normal
+/execute as @a[tag=unmd_travel_jetpack,scores={UNMDtravel5=0},nbt={OnGround:0b}] at @s unless block ~ ~-2 ~ minecraft:air run particle flame ~ ~1 ~ 0.1 0.1 0.1 0.008 2 normal
+/execute as @a[tag=unmd_travel_jetboots] at @s if block ~ ~-1.5 ~ air run scoreboard players set @s UNMDtravel5 0
+/execute as @a[tag=unmd_travel_jetpack] at @s if block ~ ~-1.5 ~ air run scoreboard players set @s UNMDtravel5 0
+/effect give @a[tag=unmd_travel_jetboots,scores={UNMDtravel1=1..,UNMDtravel2=1..,UNMDtravel4=0},nbt={OnGround:0b}] minecraft:levitation 1 4 true
+/effect give @a[tag=unmd_travel_jetpack,scores={UNMDtravel1=1..,UNMDtravel2=1..,UNMDtravel4=0},nbt={OnGround:0b}] minecraft:levitation 1 6 true
+/effect clear @a[tag=unmd_travel_jetboots,scores={UNMDtravel1=..0}] minecraft:levitation
+/effect clear @a[tag=unmd_travel_jetpack,scores={UNMDtravel1=..0}] minecraft:levitation
+/execute as @a[tag=unmd_travel_jetpack,scores={UNMDtravel1=1..,UNMDtravel2=1..,UNMDtravel4=0},nbt={OnGround:0b}] at @s positioned ~ ~ ~ run particle smoke ~ ~1 ~ 0.1 0.1 0.1 0.008 4 normal
+/execute as @a[tag=unmd_travel_jetpack,scores={UNMDtravel1=1..,UNMDtravel2=1..,UNMDtravel4=0},nbt={OnGround:0b}] at @s positioned ~ ~ ~ run particle flame ~ ~1 ~ 0.1 0.1 0.1 0.008 4 normal
+/execute as @a[tag=unmd_travel_jetboots,scores={UNMDtravel1=1..,UNMDtravel2=1..,UNMDtravel4=0},nbt={OnGround:0b}] at @s positioned ~ ~ ~ run particle flame ~ ~ ~ 0.1 0.1 0.1 0.008 4 normal
+/execute as @a[tag=unmd_travel_jetboots,scores={UNMDtravel1=1..,UNMDtravel2=1..,UNMDtravel4=0},nbt={OnGround:0b}] at @s positioned ~ ~ ~ run particle smoke ~ ~ ~ 0.1 0.1 0.1 0.008 4 normal
+/scoreboard players set @a[tag=unmd_travel_jetpack,scores={UNMDtravel1=1..,UNMDtravel2=..1,UNMDtravel4=0},nbt={Inventory:[{id:"minecraft:coal"}],OnGround:0b}] UNMDtravel3 1
+/scoreboard players set @a[tag=unmd_travel_jetboots,scores={UNMDtravel1=1..,UNMDtravel2=..1,UNMDtravel4=0},nbt={Inventory:[{id:"minecraft:coal"}],OnGround:0b}] UNMDtravel3 1
+/scoreboard players set @a[tag=unmd_travel_jetpack,scores={UNMDtravel1=1..,UNMDtravel2=..1,UNMDtravel4=0},nbt={Inventory:[{id:"minecraft:charcoal"}],OnGround:0b}] UNMDtravel3 2
+/scoreboard players set @a[tag=unmd_travel_jetboots,scores={UNMDtravel1=1..,UNMDtravel2=..1,UNMDtravel4=0},nbt={Inventory:[{id:"minecraft:charcoal"}],OnGround:0b}] UNMDtravel3 2
+/clear @a[scores={UNMDtravel3=1},gamemode=!creative] coal 1
+/clear @a[scores={UNMDtravel3=2},gamemode=!creative] charcoal 1
+/scoreboard players add @a[scores={UNMDtravel3=1..}] UNMDtravel2 160
+/scoreboard players set @a[gamemode=creative] UNMDtravel2 160
+/scoreboard players remove @a[tag=unmd_travel_jetpack,scores={UNMDtravel1=1..,UNMDtravel2=1..,UNMDtravel4=0},nbt={OnGround:0b}] UNMDtravel2 1
+/scoreboard players remove @a[tag=unmd_travel_jetboots,scores={UNMDtravel1=1..,UNMDtravel2=1..,UNMDtravel4=0},nbt={OnGround:0b}] UNMDtravel2 1
+/scoreboard players add @a[tag=unmd_travel_jetpack,scores={UNMDtravel1=1..},nbt={OnGround:0b}] UNMDtravel2 0
+/scoreboard players add @a[tag=unmd_travel_jetboots,scores={UNMDtravel1=1..},nbt={OnGround:0b}] UNMDtravel2 0
+/scoreboard players set @a[scores={UNMDtravel3=1..}] UNMDtravel3 0
+/execute as @a[scores={UNMDtravel5=0},nbt={OnGround:0b,Inventory:[{Slot: 102b, id: "minecraft:elytra", Count: 1b, tag: {ench: [{lvl: 4, id: 0}, {lvl: 3, id: 7}, {id: 127}], Unbreakable:1b, HideFlags: 127, display: {Name: "{\"text\":\"Angel Wings\",\"italic\":false}"}, Damage: 0, AttributeModifiers: [{UUIDMost: 868689, UUIDLeast: 731691, Amount: 5, Slot: "chest", AttributeName: "generic.maxHealth", Operation: 0, Name: "generic.maxHealth"}, {UUIDMost: 718019, UUIDLeast: 336862, Amount: 8, Slot: "chest", AttributeName: "generic.armor", Operation: 0, Name: "generic.armor"}, {UUIDMost: 163587, UUIDLeast: 255294, Amount: 5, Slot: "chest", AttributeName: "generic.armorToughness", Operation: 0, Name: "generic.armorToughness"}]}}]}] at @s unless block ~ ~-2 ~ minecraft:air run effect give @s slow_falling 1 0 true
+/execute as @a[scores={UNMDtravel4=1..,UNMDtravel1=1..},nbt={Inventory:[{Slot: 102b, id: "minecraft:elytra", Count: 1b, tag: {ench: [{lvl: 4, id: 0}, {lvl: 3, id: 7}, {id: 127}], Unbreakable:1b, HideFlags: 127, display: {Name: "{\"text\":\"Angel Wings\",\"italic\":false}"}, Damage: 0, AttributeModifiers: [{UUIDMost: 868689, UUIDLeast: 731691, Amount: 5, Slot: "chest", AttributeName: "generic.maxHealth", Operation: 0, Name: "generic.maxHealth"}, {UUIDMost: 718019, UUIDLeast: 336862, Amount: 8, Slot: "chest", AttributeName: "generic.armor", Operation: 0, Name: "generic.armor"}, {UUIDMost: 163587, UUIDLeast: 255294, Amount: 5, Slot: "chest", AttributeName: "generic.armorToughness", Operation: 0, Name: "generic.armorToughness"}]}}]}] at @s if block ^ ^ ^1.8 minecraft:air if block ^ ^ ^1 minecraft:air if block ^ ^ ^.5 minecraft:air run tp @s ^ ^ ^1.8
+/execute as @a[nbt={Inventory:[{Slot: 102b, id: "minecraft:elytra", Count: 1b, tag: {ench: [{lvl: 4, id: 0}, {lvl: 3, id: 7}, {id: 127}], Unbreakable:1b, HideFlags: 127, display: {Name: "{\"text\":\"Angel Wings\",\"italic\":false}"}, Damage: 0, AttributeModifiers: [{UUIDMost: 868689, UUIDLeast: 731691, Amount: 5, Slot: "chest", AttributeName: "generic.maxHealth", Operation: 0, Name: "generic.maxHealth"}, {UUIDMost: 718019, UUIDLeast: 336862, Amount: 8, Slot: "chest", AttributeName: "generic.armor", Operation: 0, Name: "generic.armor"}, {UUIDMost: 163587, UUIDLeast: 255294, Amount: 5, Slot: "chest", AttributeName: "generic.armorToughness", Operation: 0, Name: "generic.armorToughness"}]}}]}] at @s if block ~ ~-1.5 ~ air run scoreboard players set @s UNMDtravel5 0
+/execute as @a[scores={UNMDtravel4=1..,UNMDtravel1=1..},nbt={Inventory:[{Slot: 102b, id: "minecraft:elytra", Count: 1b, tag: {ench: [{lvl: 4, id: 0}, {lvl: 3, id: 7}, {id: 127}], Unbreakable:1b, HideFlags: 127, display: {Name: "{\"text\":\"Angel Wings\",\"italic\":false}"}, Damage: 0, AttributeModifiers: [{UUIDMost: 868689, UUIDLeast: 731691, Amount: 5, Slot: "chest", AttributeName: "generic.maxHealth", Operation: 0, Name: "generic.maxHealth"}, {UUIDMost: 718019, UUIDLeast: 336862, Amount: 8, Slot: "chest", AttributeName: "generic.armor", Operation: 0, Name: "generic.armor"}, {UUIDMost: 163587, UUIDLeast: 255294, Amount: 5, Slot: "chest", AttributeName: "generic.armorToughness", Operation: 0, Name: "generic.armorToughness"}]}}]}] at @s run particle firework ~ ~ ~ 0.1 0.1 0.1 0.008 4 normal
+/scoreboard players set @a[scores={UNMDtravel1=1..}] UNMDtravel1 0
+/scoreboard players remove @a[scores={UNMDtravel6=1..}] UNMDtravel6 1
+/scoreboard players set @a[nbt={SelectedItem:{id:"minecraft:ender_pearl",tag:{display:{Name:"{\"text\":\"Infinite Enderpearl\",\"italic\":\"false\"}"},ench:[{id:127}],HideFlags:127}}}] UNMDtravel6 2
+/give @a[scores={UNMDtravel7=1..},gamemode=!creative] ender_pearl{display:{Name:"{\"text\":\"Infinite Enderpearl\",\"italic\":\"false\"}"},ench:[{id:127}],HideFlags:127} 1
+/scoreboard players set @a[scores={UNMDtravel7=1..}] UNMDtravel7 0
+/scoreboard players remove @a[scores={UNMDtravel7=1..},nbt={SelectedItem:{id:"minecraft:ender_pearl"}}] UNMDtravel6 1
+/scoreboard players set @a UNMDtravel4 0
+
+#file: ./travel/recipes
+#
+#RECIPES
+modal recipe(item1,count1,item2,count2,item3,count3,item4,count4,item5,count5,item6,count6,item7,count7,item8,count8,item9,count9,item_1,count_1,item_2,count_2,item_3,count_3,item_4,count_4,item_5,count_5,item_6,count_6,item_7,count_7,item_8,count_8,item_9,count_9) {
+if('block ~ ~ ~ minecraft:dropper[facing=down]{CustomName: "{\"text\":\"Advanced Crafting Table\"}", Items: [{Slot: 0b, id: "$(item1)", Count: $(count1)b}, {Slot: 1b, id: "$(item2)", Count: $(count2)b}, {Slot: 2b, id: "$(item3)", Count: $(count3)b}, {Slot: 3b, id: "$(item4)", Count: $(count4)b}, {Slot: 4b, id: "$(item5)", Count: $(count5)b}, {Slot: 5b, id: "$(item6)", Count: $(count6)b}, {Slot: 6b, id: "$(item7)", Count: $(count7)b}, {Slot: 7b, id: "$(item8)", Count: $(count8)b}, {Slot: 8b, id: "$(item9)", Count: $(count9)b}], id: "minecraft:dropper"}') {
+/particle effect ~ ~ ~ 0.1 0.1 0.1 .0008 100
+/data merge block ~ ~ ~ {Items: [{Slot: 0b, id: "$(item_1)", Count: $(count_1)b}, {Slot: 1b, id: "$(item_2)", Count: $(count_2)b}, {Slot: 2b, id: "$(item_3)", Count: $(count_3)b}, {Slot: 3b, id: "$(item_4)", Count: $(count_4)b}, {Slot: 4b, id: "$(item_5)", Count: $(count_5)b}, {Slot: 5b, id: "$(item_6)", Count: $(count_6)b}, {Slot: 6b, id: "$(item_7)", Count: $(count_7)b}, {Slot: 7b, id: "$(item_8)", Count: $(count_8)b}, {Slot: 8b, id: "$(item_9)", Count: $(count_9)b}]}
+}
+}
+#ANGEL WINGS
+/execute at @e[type=armor_stand,tag=advancedcrafting_main] if block ~ ~ ~ minecraft:dropper[facing=down]{CustomName: "{\"text\":\"Advanced Crafting Table\"}", Items: [{Slot: 0b, id: "minecraft:diamond_block", Count: 5b}, {Slot: 1b, id: "minecraft:gold_block", Count: 10b}, {Slot: 2b, id: "minecraft:diamond_block", Count: 5b}, {Slot: 3b, id: "minecraft:elytra", Count: 1b}, {Slot: 4b, id: "minecraft:diamond_chestplate", Count: 1b, tag: {ench: [{lvl: 3s, id: 34s}, {lvl: 4s, id: 0s}, {lvl: 1s, id: 70s}, {lvl: 3s, id: 7s}], Damage: 0}}, {Slot: 5b, id: "minecraft:elytra", Count: 1b}, {Slot: 6b, id: "minecraft:feather", Count: 32b}, {Slot: 7b, id: "minecraft:glowstone_dust", Count: 64b}, {Slot: 8b, id: "minecraft:feather", Count: 32b}], id: "minecraft:dropper"} run data merge block ~ ~ ~ {Items: [{Slot: 0b, id: "minecraft:air", Count: 1b}, {Slot: 1b, id: "minecraft:air", Count: 1b}, {Slot: 2b, id: "minecraft:air", Count: 1b}, {Slot: 3b, id: "minecraft:air", Count: 1b}, {Slot:4b,id:"minecraft:elytra",Count:1b,tag:{Unbreakable:1b,HideFlags:127,display:{Name:"{\"text\":\"Angel Wings\",\"italic\":false}"},ench:[{id:0,lvl:4},{id:7,lvl:3},{id:127}],AttributeModifiers:[{AttributeName:"generic.maxHealth",Name:"generic.maxHealth",Amount:5,Operation:0,UUIDLeast:731691,UUIDMost:868689,Slot:"chest"},{AttributeName:"generic.armor",Name:"generic.armor",Amount:8,Operation:0,UUIDLeast:336862,UUIDMost:718019,Slot:"chest"},{AttributeName:"generic.armorToughness",Name:"generic.armorToughness",Amount:5,Operation:0,UUIDLeast:255294,UUIDMost:163587,Slot:"chest"}]}}, {Slot: 5b, id: "minecraft:air", Count: 1b}, {Slot: 6b, id: "minecraft:air", Count: 1b}, {Slot: 7b, id: "minecraft:air", Count: 1b}, {Slot: 8b, id: "minecraft:air", Count: 1b}]}
+#
+#INFINITE ENDERPEARL
+/execute if block ~ ~ ~ minecraft:dropper[facing=down]{CustomName: "{\"text\":\"Advanced Crafting Table\"}", x: 1127, y: 56, z: -472, Items: [{Slot: 0b, id: "minecraft:diamond_block", Count: 1b}, {Slot: 1b, id: "minecraft:ender_pearl", Count: 1b}, {Slot: 2b, id: "minecraft:gold_block", Count: 1b}, {Slot: 3b, id: "minecraft:ender_pearl", Count: 1b}, {Slot: 4b, id: "minecraft:ender_eye", Count: 1b}, {Slot: 5b, id: "minecraft:ender_pearl", Count: 1b}, {Slot: 6b, id: "minecraft:gold_block", Count: 1b}, {Slot: 7b, id: "minecraft:ender_pearl", Count: 1b}, {Slot: 8b, id: "minecraft:diamond_block", Count: 1b}], id: "minecraft:dropper"} run data merge block ~ ~ ~ {Items: [{Slot: 0b, id: "minecraft:air", Count: 1b}, {Slot: 1b, id: "minecraft:air", Count: 1b}, {Slot: 2b, id: "minecraft:air", Count: 1b}, {Slot: 3b, id: "minecraft:air", Count: 1b}, {Slot: 4b, id: "minecraft:ender_pearl", Count: 1b, tag: {ench: [{id: 127}], HideFlags: 127, display: {Name: "{\"text\":\"Infinite Enderpearl\",\"italic\":\"false\"}"}}}, {Slot: 5b, id: "minecraft:air", Count: 1b}, {Slot: 6b, id: "minecraft:air", Count: 1b}, {Slot: 7b, id: "minecraft:air", Count: 1b}, {Slot: 8b, id: "minecraft:air", Count: 1b}]}
+/execute if block ~ ~ ~ minecraft:dropper[facing=down]{CustomName: "{\"text\":\"Advanced Crafting Table\"}", x: 1127, y: 56, z: -472, Items: [{Slot: 0b, id: "minecraft:gold_block", Count: 1b}, {Slot: 1b, id: "minecraft:ender_pearl", Count: 1b}, {Slot: 2b, id: "minecraft:diamond_block", Count: 1b}, {Slot: 3b, id: "minecraft:ender_pearl", Count: 1b}, {Slot: 4b, id: "minecraft:ender_eye", Count: 1b}, {Slot: 5b, id: "minecraft:ender_pearl", Count: 1b}, {Slot: 6b, id: "minecraft:diamond_block", Count: 1b}, {Slot: 7b, id: "minecraft:ender_pearl", Count: 1b}, {Slot: 8b, id: "minecraft:gold_block", Count: 1b}], id: "minecraft:dropper"} run data merge block ~ ~ ~ {Items: [{Slot: 0b, id: "minecraft:air", Count: 1b}, {Slot: 1b, id: "minecraft:air", Count: 1b}, {Slot: 2b, id: "minecraft:air", Count: 1b}, {Slot: 3b, id: "minecraft:air", Count: 1b}, {Slot: 4b, id: "minecraft:ender_pearl", Count: 1b, tag: {ench: [{id: 127}], HideFlags: 127, display: {Name: "{\"text\":\"Infinite Enderpearl\",\"italic\":\"false\"}"}}}, {Slot: 5b, id: "minecraft:air", Count: 1b}, {Slot: 6b, id: "minecraft:air", Count: 1b}, {Slot: 7b, id: "minecraft:air", Count: 1b}, {Slot: 8b, id: "minecraft:air", Count: 1b}]}
+#
+#JETBOOTS
+/execute if block ~ ~ ~ minecraft:dropper[facing=down]{CustomName: "{\"text\":\"Advanced Crafting Table\"}", Items: [{Slot: 3b, id: "minecraft:redstone", Count: 8b}, {Slot: 4b, id: "minecraft:iron_boots", Count: 1b}, {Slot: 5b, id: "minecraft:redstone", Count: 8b}, {Slot: 6b, id: "minecraft:firework_rocket", Count: 1b, tag: {Fireworks: {Flight: 1b}}}, {Slot: 7b, id: "minecraft:flint_and_steel", Count: 1b}, {Slot: 8b, id: "minecraft:firework_rocket", Count: 1b, tag: {Fireworks: {Flight: 1b}}}], id: "minecraft:dropper"} run data merge block ~ ~ ~ {Items: [{Slot: 0b, id: "minecraft:air", Count: 1b}, {Slot: 1b, id: "minecraft:air", Count: 1b}, {Slot: 2b, id: "minecraft:air", Count: 1b}, {Slot: 3b, id: "minecraft:air", Count: 1b}, {Slot: 4b, id: "minecraft:iron_boots", Count: 1b, tag: {ench: [{id: 127}], HideFlags: 127, display: {Name: "{\"text\":\"Jetboots\",\"italic\":\"false\"}"}, Damage: 0, AttributeModifiers: [{UUIDMost: 3, UUIDLeast: 3, Amount: 0, AttributeName: "generic.armor", Operation: 0, Name: "JetbootsArmor"}]}}, {Slot: 5b, id: "minecraft:air", Count: 1b}, {Slot: 6b, id: "minecraft:air", Count: 1b}, {Slot: 7b, id: "minecraft:air", Count: 1b}, {Slot: 8b, id: "minecraft:air", Count: 1b}]}
+#
+#JETPACK
+/execute if block ~ ~ ~ minecraft:dropper[facing=down]{CustomName: "{\"text\":\"Advanced Crafting Table\"}", Items: [{Slot: 3b, id: "minecraft:redstone", Count: 16b}, {Slot: 4b, id: "minecraft:iron_chestplate", Count: 1b}, {Slot: 5b, id: "minecraft:redstone", Count: 16b}, {Slot: 6b, id: "minecraft:firework_rocket", Count: 1b, tag: {Fireworks: {Flight: 2b}}}, {Slot: 7b, id: "minecraft:flint_and_steel", Count: 1b}, {Slot: 8b, id: "minecraft:firework_rocket", Count: 1b, tag: {Fireworks: {Flight: 2b}}}], id: "minecraft:dropper"} run data merge block ~ ~ ~ {Items: [{Slot: 0b, id: "minecraft:air", Count: 1b}, {Slot: 1b, id: "minecraft:air", Count: 1b}, {Slot: 2b, id: "minecraft:air", Count: 1b}, {Slot: 3b, id: "minecraft:air", Count: 1b}, {Slot: 4b, id: "minecraft:iron_chestplate", Count: 1b, tag: {ench: [{id: 127}], Unbreakable: 1b, HideFlags: 127, display: {Name: "{\"text\":\"Jetpack\",\"italic\":\"false\"}"}, Damage: 0, AttributeModifiers: [{UUIDMost: 3, UUIDLeast: 3, Amount: 0, AttributeName: "generic.armor", Operation: 0, Name: "JetpackArmor"}]}}, {Slot: 5b, id: "minecraft:air", Count: 1b}, {Slot: 6b, id: "minecraft:air", Count: 1b}, {Slot: 7b, id: "minecraft:air", Count: 1b}, {Slot: 8b, id: "minecraft:air", Count: 1b}]}
