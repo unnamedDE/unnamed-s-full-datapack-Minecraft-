@@ -1,4 +1,4 @@
-
+#file: ./advancedcrafting_lib/recipe_modal
 //Modal for creating recipes:
 modal recipe(item1,count1,item2,count2,item3,count3,item4,count4,item5,count5,item6,count6,item7,count7,item8,count8,item9,count9,item_1,count_1,item_2,count_2,item_3,count_3,item_4,count_4,item_5,count_5,item_6,count_6,item_7,count_7,item_8,count_8,item_9,count_9) {
 if('block ~ ~ ~ minecraft:dropper[facing=down]{CustomName: "{\"text\":\"Advanced Crafting Table\"}", Items: [{Slot: 0b, id: "$(item1)", Count: $(count1)b}, {Slot: 1b, id: "$(item2)", Count: $(count2)b}, {Slot: 2b, id: "$(item3)", Count: $(count3)b}, {Slot: 3b, id: "$(item4)", Count: $(count4)b}, {Slot: 4b, id: "$(item5)", Count: $(count5)b}, {Slot: 5b, id: "$(item6)", Count: $(count6)b}, {Slot: 6b, id: "$(item7)", Count: $(count7)b}, {Slot: 7b, id: "$(item8)", Count: $(count8)b}, {Slot: 8b, id: "$(item9)", Count: $(count9)b}], id: "minecraft:dropper"}') {
